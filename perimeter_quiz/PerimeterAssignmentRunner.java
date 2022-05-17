@@ -87,8 +87,19 @@ public class PerimeterAssignmentRunner {
 
     public String getFileWithLargestPerimeter() {
         // Put code here
-        File temp = null;    // replace this code
-        return temp.getName();
+        File maxFile = null;
+        double maxLength = 0;
+        DirectoryResource dr = new DirectoryResource();
+        for (File f : dr.selectedFiles()) {
+          FileResource fr = new FileResource(f);
+          Shape s = new Shape(fr);
+          double currLength = getPerimeter(s);
+          if (currLength > maxLength) {
+            maxLength = currLength;
+            maxFile = f;
+          }
+        }
+        return maxFile.getName();
     }
 
     public void testPerimeter () {
@@ -107,8 +118,7 @@ public class PerimeterAssignmentRunner {
     }
     
     public void testPerimeterMultipleFiles() {
-        // Put code here
-        double result = getLargestPerimeterMultipleFiles();
+        Double result = getLargestPerimeterMultipleFiles();
         DirectoryResource dr = new DirectoryResource();
         for (File f : dr.selectedFiles()) {
           FileResource fr = new FileResource(f);
@@ -118,12 +128,20 @@ public class PerimeterAssignmentRunner {
           System.out.println(currLength);
         }
         System.out.println(result);
-
     }
 
     public void testFileWithLargestPerimeter() {
-        // Put code here
-    }
+      String result = getFileWithLargestPerimeter();
+      DirectoryResource dr = new DirectoryResource();
+      for (File f : dr.selectedFiles()) {
+        FileResource fr = new FileResource(f);
+        Shape s = new Shape(fr);
+        double currLength = getPerimeter(s);
+        System.out.println(f);
+        System.out.println(currLength);
+      }
+      System.out.println(result);
+  }
 
     // This method creates a triangle that you can use to test your other methods
     public void triangle(){
