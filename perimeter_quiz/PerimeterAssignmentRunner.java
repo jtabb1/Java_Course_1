@@ -109,6 +109,14 @@ public class PerimeterAssignmentRunner {
     public void testPerimeterMultipleFiles() {
         // Put code here
         double result = getLargestPerimeterMultipleFiles();
+        DirectoryResource dr = new DirectoryResource();
+        for (File f : dr.selectedFiles()) {
+          FileResource fr = new FileResource(f);
+          Shape s = new Shape(fr);
+          double currLength = getPerimeter(s);
+          System.out.println(f);
+          System.out.println(currLength);
+        }
         System.out.println(result);
 
     }
