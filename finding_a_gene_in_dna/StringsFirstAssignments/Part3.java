@@ -13,6 +13,13 @@ public class Part3 {
     return true;
   }
 
+  public Boolean twoOccurrencesX(String stringa, String stringb) {
+    int startIndex1 = stringb.indexOf(stringa);
+    int startIndex2 = stringb.indexOf(stringa, startIndex1+1);
+    if (startIndex1 == -1 || startIndex2 == -1) {return false;}
+    return true;
+  }
+
   public void testing() {
     System.out.println(twoOccurrences("sa", "wawas"));
     System.out.println(twoOccurrences("wa", "wawaws"));
