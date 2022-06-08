@@ -11,13 +11,112 @@ import edu.duke.*;
  */
 public class Part1 {
 
+  public void testProcessGenes2() {
+
+    FileResource fr = new FileResource("brca1line.fa");
+    String dna = fr.asString();
+    System.out.println(); processGenes2(getAllGenes(dna));
+  }
+
+  public void processGenes2(StorageResource genes) {
+    
+    System.out.println("All genes that have more than 60 amino acids:");
+    printGenesWithMoreThanXAminoAcids(60, genes);
+
+    System.out.print("The number of genes that have more than 60 amino acids: ");
+    System.out.println(numOfGenesWithMoreThanXAminoAcids(60, genes));
+
+    System.out.println("The genes whose C-G ratio is more than 0.35:");
+    printGenesWithCGRatioMoreThanX(.35, genes);
+
+    System.out.print("The number of genes whose C-G ratio is more than 0.35: ");
+    System.out.println(numOfGenesWithCGRatioMoreThanX(.35, genes));
+
+    System.out.println("The longest gene in the strand is:");
+    printLongestGene(genes);
+  }
+
+  public void testProcessGenes1() {
+
+    String dna00 = "ATGATCATAAGAAGATAATAGAGGGCCATGTAA";
+    String dna01 = "NGDSRAHGF";
+    String dna02 = "ATGJGCMOU";
+    String dna03 = "NYRTRXTAA";
+    String dna04 =  "svaATG123TAAATGTAGATG123456TGADE";
+    String dna05 = "AVAATG1234TAADE";
+
+    String dna07 = "AAATGCCCTAACTAGATTAAGAAACC";
+    String dna08 = "ATGCCATAG";
+
+    System.out.println(); processGenes1(getAllGenes(dna00));
+    System.out.println(); processGenes1(getAllGenes(dna01));
+    System.out.println(); processGenes1(getAllGenes(dna02));
+    System.out.println(); processGenes1(getAllGenes(dna04));
+    System.out.println(); processGenes1(getAllGenes(dna07));
+    System.out.println(); processGenes1(getAllGenes(dna08));
+  }
+
+  public void processGenes1(StorageResource genes) {
+    
+    System.out.println("All genes that have more than 9 amino acids:");
+    printGenesWithMoreThanXAminoAcids(9, genes);
+
+    System.out.print("The number of genes that have more than 9 amino acids: ");
+    System.out.println(numOfGenesWithMoreThanXAminoAcids(9, genes));
+
+    System.out.println("The genes whose C-G ratio is more than 0.35:");
+    printGenesWithCGRatioMoreThanX(.35, genes);
+
+    System.out.print("The number of genes whose C-G ratio is more than 0.35: ");
+    System.out.println(numOfGenesWithCGRatioMoreThanX(.35, genes));
+
+    System.out.println("The longest gene in the strand is:");
+    printLongestGene(genes);
+  }
+
+  public void printGenesWithMoreThanXAminoAcids(int x, StorageResource genes) {
+    for (String g: genes.data()) {if (g.length() > x) {System.out.println(g);}}
+  }
+
+  public int numOfGenesWithMoreThanXAminoAcids(int x, StorageResource genes) {
+    int ctr = 0;
+    for (String g: genes.data()) {if (g.length() > x) {ctr = ctr + 1;}}
+    return ctr;
+  }
+
+  public void printGenesWithCGRatioMoreThanX(double x, StorageResource genes) {
+    for (String g: genes.data()) {
+      if (cgRatio(g) > x) {
+        System.out.println(g);
+      }
+    }
+  }
+
+  public int numOfGenesWithCGRatioMoreThanX(double x, StorageResource genes) {
+    int ctr = 0;
+    for (String g: genes.data()) {if (cgRatio(g) > x) {ctr = ctr + 1;}}
+    return ctr;
+  }
+
+  public void printLongestGene(StorageResource genes) {
+    int longest = 0;
+    String longestGene = "";
+    for (String g: genes.data()) {
+      if (g.length() > longest) {
+        longest = g.length();
+        longestGene = g;
+      }
+    }
+    System.out.println(longestGene);
+  }
+  
   public int countCTG(String dna) {
     String codon = "ctg"; codon = codon.toLowerCase();
     StorageResource genes = new StorageResource();
     genes = getAllGenes(dna);
     int ctr = 0;
     for (String g: genes.data()) {
-      for (int i = 0; i < g.length() - 3; i = i + 3){
+      for (int i = 0; i < g.length() - 3; i = i + 3) {
         //System.out.println(i + ", " + i+3 + "; " + g.substring(i,i+3).toLowerCase());
         if (g.substring(i,i+3).toLowerCase().equals(codon)) {
           ctr = ctr + 1;
@@ -28,7 +127,7 @@ public class Part1 {
   }
 
   public void testCountCTG() {
-    String dna000 = "ATG"+"CTG"+"CTG"+"AGC"+"TGA"+"TAA"+"TAG"+"AGG"+"GCC"+"ATG"+"TAA"+"CTG";
+    //String dna000 = "ATG"+"CTG"+"CTG"+"AGC"+"TGA"+"TAA"+"TAG"+"AGG"+"GCC"+"ATG"+"TAA"+"CTG";
     String dna00 = "ATG"+"CTG"+"CTG"+"AGC"+"TGA"+"TAA"+"TAGCTGCTG"+"ATG"+"TAA"+"CTG";
     String dna07 = "AA"+"ATGCTGTAA"+"CTGGATTAAGAAACC";
     String dna08 = "ATGCTGTAG";
@@ -38,16 +137,16 @@ public class Part1 {
     System.out.println(countCTG(dna08));
   }
 
-  public float cgRatio(String dna) {
+  public double cgRatio(String dna) {
     int ctr = 0;
     for (int i = 0; i < dna.length(); i++) {
       char aminoAcid = dna.charAt(i);
       if (aminoAcid == 'C' || aminoAcid == 'G') {
         ctr = ctr + 1;
       }
-      System.out.println(dna.charAt(i));
+      //System.out.println(dna.charAt(i));
     }
-    return (float) ctr/dna.length();
+    return (double) ctr/dna.length();
   }
 
   public void testCGRatio () {
@@ -68,6 +167,7 @@ public class Part1 {
     int idx = 0;
     int ctr = 0;
     StorageResource geneList = new StorageResource();
+    System.out.println("Starting to gather genes:");
     while(true) {
       String gene = findGene(dna, idx);
       if (gene.length() == 0) {
@@ -77,7 +177,6 @@ public class Part1 {
       geneList.add(gene);
       ctr = ctr + 1;
 
-      System.out.println("iteration #" + ctr + ":");
       System.out.println("gene found and added: " + gene);
       idx = dna.indexOf(gene,idx) + gene.length();
     }
@@ -121,9 +220,9 @@ public class Part1 {
     int index = 0;
     int remainder = 1;
     while(remainder != 0 && index != -1) {
-      index = dna.toLowerCase().indexOf(stopCodon.toLowerCase(),startIndex);
+      index = (int) dna.toLowerCase().indexOf(stopCodon.toLowerCase(),startIndex);
       if (index == -1) {return dna.length();}
-      remainder = (index-startIndex)%3;
+      remainder = (int) (index-startIndex)%3;
       // un-comment the below to see the iterations:
       //System.out.println("  >>: " + startIndex + ", " + index + ", " + remainder);
       startIndex = index + 1;
