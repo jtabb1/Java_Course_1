@@ -11,6 +11,59 @@ import edu.duke.*;
  */
 public class Part1 {
 
+  public int countCTG(String dna) {
+    String codon = "ctg"; codon = codon.toLowerCase();
+    StorageResource genes = new StorageResource();
+    genes = getAllGenes(dna);
+    int ctr = 0;
+    for (String g: genes.data()) {
+      for (int i = 0; i < g.length() - 3; i = i + 3){
+        //System.out.println(i + ", " + i+3 + "; " + g.substring(i,i+3).toLowerCase());
+        if (g.substring(i,i+3).toLowerCase().equals(codon)) {
+          ctr = ctr + 1;
+        }
+      }
+    }
+    return ctr;
+  }
+
+  public void testCountCTG() {
+    String dna000 = "ATG"+"CTG"+"CTG"+"AGC"+"TGA"+"TAA"+"TAG"+"AGG"+"GCC"+"ATG"+"TAA"+"CTG";
+    String dna00 = "ATG"+"CTG"+"CTG"+"AGC"+"TGA"+"TAA"+"TAGCTGCTG"+"ATG"+"TAA"+"CTG";
+    String dna07 = "AA"+"ATGCTGTAA"+"CTGGATTAAGAAACC";
+    String dna08 = "ATGCTGTAG";
+    
+    System.out.println(countCTG(dna00));
+    System.out.println(countCTG(dna07));
+    System.out.println(countCTG(dna08));
+  }
+
+  public float cgRatio(String dna) {
+    int ctr = 0;
+    for (int i = 0; i < dna.length(); i++) {
+      char aminoAcid = dna.charAt(i);
+      if (aminoAcid == 'C' || aminoAcid == 'G') {
+        ctr = ctr + 1;
+      }
+      System.out.println(dna.charAt(i));
+    }
+    return (float) ctr/dna.length();
+  }
+
+  public void testCGRatio () {
+    String dna00 = "ATGATCATAAGAAGATAATAGAGGGCCATGTAA";
+    String dna01 = "NGDSRAHGF";
+    String dna02 = "ATGJGCMOU";
+    String dna03 = "NYRTRXTAA";
+    String dna04 =  "svaATG123TAAATGTAGATG123456TGADE";
+    String dna05 = "AVAATG1234TAADE";
+
+    String dna07 = "AAATGCCCTAACTAGATTAAGAAACC";
+    String dna08 = "ATGCCATAG";
+    
+    System.out.println(cgRatio(dna08));
+  }
+  
   public StorageResource getAllGenes(String dna) {
     int idx = 0;
     int ctr = 0;
@@ -23,17 +76,10 @@ public class Part1 {
       }
       geneList.add(gene);
       ctr = ctr + 1;
-      
+
       System.out.println("iteration #" + ctr + ":");
       System.out.println("gene found and added: " + gene);
-      System.out.println(idx + ", " + gene.length() + ", " + dna.length());
       idx = dna.indexOf(gene,idx) + gene.length();
-      /*if (gene.length() == dna.length()) {
-        System.out.println("stopped iteration(s).");
-        break;
-      }*/
-      //dna = dna.substring(idx+gene.length(), dna.length()-1);
-      //System.out.println("dna left: " + dna);
     }
     return geneList;
   }
