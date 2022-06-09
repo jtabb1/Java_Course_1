@@ -18,13 +18,15 @@ public class Part1 {
     System.out.println(); processGenes2(getAllGenes(dna));
   }
 
+  // %
+
   public void processGenes2(StorageResource genes) {
     
-    System.out.println("All genes that have more than 60 amino acids:");
-    printGenesWithMoreThanXAminoAcids(60, genes);
+    System.out.println("All genes that have more than 0 amino acids:");
+    printGenesWithMoreThanXAminoAcids(0, genes);
 
-    System.out.print("The number of genes that have more than 60 amino acids: ");
-    System.out.println(numOfGenesWithMoreThanXAminoAcids(60, genes));
+    System.out.print("The number of genes that have more than 0 amino acids: ");
+    System.out.println(numOfGenesWithMoreThanXAminoAcids(0, genes));
 
     System.out.println("The genes whose C-G ratio is more than 0.35:");
     printGenesWithCGRatioMoreThanX(.35, genes);
@@ -33,7 +35,9 @@ public class Part1 {
     System.out.println(numOfGenesWithCGRatioMoreThanX(.35, genes));
 
     System.out.println("The longest gene in the strand is:");
-    printLongestGene(genes);
+    String longest = longestGene(genes);
+    System.out.println(longest);
+    System.out.println("It has " + longest.length() + " amino acids in it.");
   }
 
   public void testProcessGenes1() {
@@ -71,7 +75,9 @@ public class Part1 {
     System.out.println(numOfGenesWithCGRatioMoreThanX(.35, genes));
 
     System.out.println("The longest gene in the strand is:");
-    printLongestGene(genes);
+    String longest = longestGene(genes);
+    System.out.println(longest);
+    System.out.println("It has " + longest.length() + " amino acids in it.");
   }
 
   public void printGenesWithMoreThanXAminoAcids(int x, StorageResource genes) {
@@ -98,7 +104,7 @@ public class Part1 {
     return ctr;
   }
 
-  public void printLongestGene(StorageResource genes) {
+  public String longestGene(StorageResource genes) {
     int longest = 0;
     String longestGene = "";
     for (String g: genes.data()) {
@@ -107,7 +113,7 @@ public class Part1 {
         longestGene = g;
       }
     }
-    System.out.println(longestGene);
+    return longestGene;
   }
   
   public int countCTG(String dna) {
@@ -137,18 +143,6 @@ public class Part1 {
     System.out.println(countCTG(dna08));
   }
 
-  public double cgRatio(String dna) {
-    int ctr = 0;
-    for (int i = 0; i < dna.length(); i++) {
-      char aminoAcid = dna.charAt(i);
-      if (aminoAcid == 'C' || aminoAcid == 'G') {
-        ctr = ctr + 1;
-      }
-      //System.out.println(dna.charAt(i));
-    }
-    return (double) ctr/dna.length();
-  }
-
   public void testCGRatio () {
     String dna00 = "ATGATCATAAGAAGATAATAGAGGGCCATGTAA";
     String dna01 = "NGDSRAHGF";
@@ -163,6 +157,18 @@ public class Part1 {
     System.out.println(cgRatio(dna08));
   }
   
+  public double cgRatio(String dna) {
+    dna = dna.toLowerCase();
+    int ctr = 0;
+    for (int i = 0; i < dna.length(); i++) {
+      char aminoAcid = dna.charAt(i);
+      if (aminoAcid == 'c' || aminoAcid == 'g') {
+        ctr = ctr + 1;
+      }
+    }
+    return (double) ctr/dna.length();
+  }
+
   public StorageResource getAllGenes(String dna) {
     int idx = 0;
     int ctr = 0;
@@ -180,6 +186,8 @@ public class Part1 {
       System.out.println("gene found and added: " + gene);
       idx = dna.indexOf(gene,idx) + gene.length();
     }
+    System.out.println("There are a total of " + ctr + 
+      " gene(s) in this strand of dna.");
     return geneList;
   }
 
@@ -214,20 +222,21 @@ public class Part1 {
     return dna.substring(startIndex,minIdx+3);
   }
 
-  
   public int findStopCodon(String dna, int startIndex, String stopCodon) {
     if (startIndex == -1) {return dna.length();}
-    int index = 0;
-    int remainder = 1;
-    while(remainder != 0 && index != -1) {
-      index = (int) dna.toLowerCase().indexOf(stopCodon.toLowerCase(),startIndex);
-      if (index == -1) {return dna.length();}
-      remainder = (int) (index-startIndex)%3;
+    dna = dna.toLowerCase();
+    stopCodon = stopCodon.toLowerCase();
+    int index = dna.indexOf(stopCodon.toLowerCase(),startIndex+3);
+    while(index != -1) {
+      int diff = index - startIndex;
+      if (diff % 3 == 0) {
+        return index;
+      } else {
+        index = dna.indexOf(stopCodon,index+1);
+      }
       // un-comment the below to see the iterations:
-      //System.out.println("  >>: " + startIndex + ", " + index + ", " + remainder);
-      startIndex = index + 1;
+      //System.out.println("  >>: " + startIndex + ", " + index + ", " + diff);
     }
-    if (remainder == 0) {return index;}
     return dna.length();
   }
 
