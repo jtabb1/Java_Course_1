@@ -11,28 +11,41 @@ import edu.duke.*;
  */
 public class Part1 {
 
+  public void testProcessGenesForQuiz() {
+
+    FileResource fr = new FileResource("GRch38dnapart.fa");
+    String dna = fr.asString();
+    System.out.println(); processGenes2(getAllGenes(dna), dna);
+  }
+
   public void testProcessGenes2() {
 
     FileResource fr = new FileResource("brca1line.fa");
     String dna = fr.asString();
-    System.out.println(); processGenes2(getAllGenes(dna));
+    System.out.println(); processGenes2(getAllGenes(dna), dna);
   }
 
   // %
 
-  public void processGenes2(StorageResource genes) {
+  public void processGenes2(StorageResource genes, String dna) {
     
-    System.out.println("All genes that have more than 0 amino acids:");
-    printGenesWithMoreThanXAminoAcids(0, genes);
+    System.out.println("All genes that have more than 60 amino acids:");
+    printGenesWithMoreThanXAminoAcids(60, genes);
 
-    System.out.print("The number of genes that have more than 0 amino acids: ");
-    System.out.println(numOfGenesWithMoreThanXAminoAcids(0, genes));
+    System.out.print("The number of genes that have more than 60 amino acids: ");
+    System.out.println(numOfGenesWithMoreThanXAminoAcids(60, genes));
 
     System.out.println("The genes whose C-G ratio is more than 0.35:");
     printGenesWithCGRatioMoreThanX(.35, genes);
 
     System.out.print("The number of genes whose C-G ratio is more than 0.35: ");
     System.out.println(numOfGenesWithCGRatioMoreThanX(.35, genes));
+    
+    System.out.println("The codon CTG appears in the dna strand " + countCTG(dna) 
+      + " times.");
+
+    System.out.println("The letter group CTG appears in the dna strand " + countLtrsCTG(dna) 
+      + " times.");
 
     System.out.println("The longest gene in the strand is:");
     String longest = longestGene(genes);
@@ -116,6 +129,41 @@ public class Part1 {
     return longestGene;
   }
   
+  public void testCountCTG() {
+    //String dna000 = "ATG"+"CTG"+"CTG"+"AGC"+"TGA"+"TAA"+"TAG"+"AGG"+"GCC"+"ATG"+"TAA"+"CTG";
+    String dna00 = "ATG"+"CTG"+"CTG"+"AGC"+"CTG"+"TGA"+"TAA"+"TAGCTGCTG"+"ATG"+"TAA"+"CTG";
+    String dna07 = "AA"+"ATGCTGTAA"+"CTGGATTAAGAAACC";
+    //String dna08 = "ATGCTGTAG";
+    
+    System.out.println(countCTG(dna00+dna00+dna00+dna07));
+
+    /*System.out.println(countCTG(dna00));
+    System.out.println(countCTG(dna07));
+    System.out.println(countCTG(dna08));*/
+  }
+
+  public int countLtrsCTG(String dna) {
+    String codon = "ctg"; codon = codon.toLowerCase();
+    dna = dna.toLowerCase();
+    //StorageResource genes = new StorageResource();
+    //genes = getAllGenes(dna);
+    int ctr = 0;
+    int idx = dna.indexOf(codon);
+    while (idx != -1) {
+      idx = dna.indexOf(codon,idx+1);
+      ctr = ctr + 1;
+    }
+    /*for (String g: genes.data()) {
+      for (int i = 0; i < g.length() - 3; i = i + 3) {
+        //System.out.println(i + ", " + i+3 + "; " + g.substring(i,i+3).toLowerCase());
+        if (g.substring(i,i+3).toLowerCase().equals(codon)) {
+          ctr = ctr + 1;
+        }
+      }
+    }*/
+    return ctr;
+  }
+
   public int countCTG(String dna) {
     String codon = "ctg"; codon = codon.toLowerCase();
     StorageResource genes = new StorageResource();
@@ -130,17 +178,6 @@ public class Part1 {
       }
     }
     return ctr;
-  }
-
-  public void testCountCTG() {
-    //String dna000 = "ATG"+"CTG"+"CTG"+"AGC"+"TGA"+"TAA"+"TAG"+"AGG"+"GCC"+"ATG"+"TAA"+"CTG";
-    String dna00 = "ATG"+"CTG"+"CTG"+"AGC"+"TGA"+"TAA"+"TAGCTGCTG"+"ATG"+"TAA"+"CTG";
-    String dna07 = "AA"+"ATGCTGTAA"+"CTGGATTAAGAAACC";
-    String dna08 = "ATGCTGTAG";
-    
-    System.out.println(countCTG(dna00));
-    System.out.println(countCTG(dna07));
-    System.out.println(countCTG(dna08));
   }
 
   public void testCGRatio () {
