@@ -15,12 +15,12 @@ public class CSVHandling {
     CSVParser parser = fr.getCSVParser();
 
     parser = fr.getCSVParser();
-    String country = "Namibia";
+    String country = "Nauru";
     System.out.println(countryInfo(parser, country));
 
     parser = fr.getCSVParser();
-    String exportItem1 = "gold";
-    String exportItem2 = "diamonds";
+    String exportItem1 = "fish";
+    String exportItem2 = "nuts";
     listExportersTwoProducts(parser, exportItem1, exportItem2);
 
     parser = fr.getCSVParser();
@@ -28,7 +28,7 @@ public class CSVHandling {
     System.out.println(numberOfExporters(parser, exportItem));
 
     parser = fr.getCSVParser();
-    String string = "$999,999,999";
+    String string = "$999,999,999,999";
     bigExporters(parser, string);
   }
 
@@ -69,7 +69,7 @@ public class CSVHandling {
   public String countryInfo(CSVParser parser, String country){
     for (CSVRecord record : parser) {
       String rCountry = record.get("Country");
-      if (rCountry.contains(country)) {
+      if (rCountry.equals(country)) {
         String exports = record.get("Exports");
         String usdValue = record.get("Value (dollars)"); 
         return country+": "+exports+": "+usdValue;
