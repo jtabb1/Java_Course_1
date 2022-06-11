@@ -23,6 +23,21 @@ public class CSVHandling {
     String exportItem2 = "diamonds";
     listExportersTwoProducts(parser, exportItem1, exportItem2);
 
+    parser = fr.getCSVParser();
+    String exportItem = "gold";
+    System.out.println(numberOfExporters(parser, exportItem));
+
+  }
+
+  public int numberOfExporters(CSVParser parser, String exportItem){
+    int ctr = 0;
+    for (CSVRecord record : parser) {
+      String rExports = record.get("Exports");
+      if (rExports.contains(exportItem)) {
+        ctr += 1;
+      }
+    }
+    return ctr;
   }
 
   public void listExportersTwoProducts(CSVParser parser, 
