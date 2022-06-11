@@ -27,6 +27,19 @@ public class CSVHandling {
     String exportItem = "gold";
     System.out.println(numberOfExporters(parser, exportItem));
 
+    parser = fr.getCSVParser();
+    String string = "$999,999,999";
+    bigExporters(parser, string);
+  }
+
+  public void bigExporters(CSVParser parser, String string){
+    for (CSVRecord record : parser) {
+      String rUsdValue = record.get("Value (dollars)"); 
+      if (rUsdValue.length()>string.length()) {
+        String rCountry = record.get("Country");
+        System.out.println(rCountry+" "+rUsdValue);
+      }
+    }
   }
 
   public int numberOfExporters(CSVParser parser, String exportItem){
