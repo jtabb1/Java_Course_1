@@ -7,21 +7,67 @@
  */
 
 import edu.duke.*;
+
+import java.io.File;
+
 import org.apache.commons.csv.*;
 
 public class CSVDataFileHandling {
 
+  public void testFileWithColdestTemperature(){
+
+    String coldestFileAndPath = fileWithColdestTemperature();
+    int lastFwdSlash = coldestFileAndPath.lastIndexOf("/");
+    String coldestFile = coldestFileAndPath.substring(lastFwdSlash+1);
+    System.out.print("Coldest day was in file ");
+    System.out.println(coldestFile);
+
+    FileResource fr = new FileResource(coldestFileAndPath);
+    CSVParser parser = fr.getCSVParser();
+    System.out.print("Coldest temperature on that day was ");
+    System.out.println(coldestHourInFile(parser).get("TemperatureF") + " F");
+    System.out.println("All the Temperatures on the coldest day were:");
+    parser = fr.getCSVParser();
+    for (CSVRecord rec : parser) {
+      String tF = rec.get("TemperatureF");
+      String display = rec.get("DateUTC") + ": " + tF;
+      System.out.println(display);
+    }
+  }
+
   public String fileWithColdestTemperature(){
+    String coldestFile = "";
     CSVRecord coldestRecord = null;
     DirectoryResource dr = new DirectoryResource();
     for (File f : dr.selectedFiles()){
       FileResource fr = new FileResource(f);
-      CSVRecord record = coldestHourInFile();
+      CSVRecord record = coldestHourInFile(fr.getCSVParser());
+      if (coldestRecord == null) {
+        coldestRecord = record;
+        coldestFile = f.toString();
+      } else {
+        coldestRecord = getColdestRecord(record, 
+          coldestRecord);
+        if (coldestRecord.equals(record)) {
+          coldestFile = f.toString();
+        }
+      }
     }
-    return "";
+    return coldestFile;
   }
 
-  public void testColdestHourInFile(){
+  //"/Users/jeremiahtabb/Library/CloudStorage/OneDrive-Personal/__ATA/Java_Courses_from_Duke_1/Course2_Week3/WeatherDataAssignments/nc_weather/2014/weather-2014-01-01.csv"
+
+  public void testColdestHourInFile1(){
+    String pathStr = "/Users/jeremiahtabb/Library/CloudStorage/OneDrive-Personal/__ATA/Java_Courses_from_Duke_1/Course2_Week3/WeatherDataAssignments";
+    //FileResource fr = new FileResource("/Users/jeremiahtabb/Library/CloudStorage/OneDrive-Personal/__ATA/Java_Courses_from_Duke_1/Course2_Week3/WeatherDataAssignments/nc_weather/2014/weather-2014-01-01.csv");
+    FileResource fr = new FileResource("nc_weather/2014/weather-2014-01-01.csv");
+    CSVParser parser = fr.getCSVParser();
+    CSVRecord coldestHour = coldestHourInFile(parser);
+    System.out.println(coldestHour.get("TemperatureF"));
+  }
+
+  public void testColdestHourInFile0(){
     FileResource fr = new FileResource();
     CSVParser parser = fr.getCSVParser();
     CSVRecord coldestHour = coldestHourInFile(parser);
