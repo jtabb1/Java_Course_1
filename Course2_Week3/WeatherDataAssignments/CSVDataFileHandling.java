@@ -14,6 +14,41 @@ import org.apache.commons.csv.*;
 
 public class CSVDataFileHandling {
 
+  public void testLowestHumidityInFile() {
+    FileResource fr = new FileResource();
+    CSVParser parser = fr.getCSVParser();
+    CSVRecord rec = lowestHumidityInFile(parser);
+
+    System.out.println("Lowest Humidity was " + rec.get("Humidity") 
+      + " at " + rec.get("DateUTC"));
+  }
+
+  public CSVRecord lowestHumidityInFile(CSVParser parser){
+    CSVRecord lowRec = null;
+    for (CSVRecord record : parser){
+      if (lowRec == null){
+        lowRec = record;
+      } else {
+        lowRec = getLowestHumidityRecord(lowRec, record);
+      }
+    }
+    return lowRec;
+  }
+
+  public CSVRecord getLowestHumidityRecord(CSVRecord r1, CSVRecord r2){
+    if (r2.get("Humidity").equals("N/A")) {return r1;}
+    if (r1.get("Humidity").equals("N/A")) {return r2;}
+    double hR1 = Double.parseDouble(r1.get("Humidity"));
+    double hR2 = Double.parseDouble(r2.get("Humidity"));
+    if (hR1 < hR2) {
+      return r1;
+    } else if (hR2 < hR1) {
+      return r2;
+    } else {
+      return r1;
+    }
+  }
+
   public void testFileWithColdestTemperature(){
 
     String coldestFileAndPath = fileWithColdestTemperature();
@@ -88,10 +123,10 @@ public class CSVDataFileHandling {
   }
 
   public CSVRecord getColdestRecord(CSVRecord r1, CSVRecord r2){
-    double tR1 = Double.parseDouble(r1.get("TemperatureF"));
-    if (tR1 < -459.67) {return r2;}
     double tR2 = Double.parseDouble(r2.get("TemperatureF"));
     if (tR2 < -459.67) {return r1;}
+    double tR1 = Double.parseDouble(r1.get("TemperatureF"));
+    if (tR1 < -459.67) {return r2;}
     if (tR1 < tR2) {return r1;} else {return r2;}
   }
 
