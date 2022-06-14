@@ -14,6 +14,27 @@ import org.apache.commons.csv.*;
 
 public class CSVDataFileHandling {
 
+  /*public String fileWithLowestHumidity(){
+    String driestFile = "";
+    CSVRecord coldestRecord = null;
+    DirectoryResource dr = new DirectoryResource();
+    for (File f : dr.selectedFiles()){
+      FileResource fr = new FileResource(f);
+      CSVRecord record = coldestHourInFile(fr.getCSVParser());
+      if (coldestRecord == null) {
+        coldestRecord = record;
+        coldestFile = f.toString();
+      } else {
+        coldestRecord = getColdestRecord(record, 
+          coldestRecord);
+        if (coldestRecord.equals(record)) {
+          coldestFile = f.toString();
+        }
+      }
+    }
+    return coldestFile;
+  }*/
+
   public void testLowestHumidityInFile() {
     FileResource fr = new FileResource();
     CSVParser parser = fr.getCSVParser();
@@ -40,13 +61,14 @@ public class CSVDataFileHandling {
     if (r1.get("Humidity").equals("N/A")) {return r2;}
     double hR1 = Double.parseDouble(r1.get("Humidity"));
     double hR2 = Double.parseDouble(r2.get("Humidity"));
-    if (hR1 < hR2) {
+    if (hR2 < hR1) {return r2;} else {return r1;}
+    /*if (hR1 < hR2) {
       return r1;
     } else if (hR2 < hR1) {
       return r2;
     } else {
       return r1;
-    }
+    }*/
   }
 
   public void testFileWithColdestTemperature(){
