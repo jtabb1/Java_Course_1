@@ -87,6 +87,59 @@ public class WordLengths {
     return counts;
   }
 
+
+
+
+
+
+  public void testCountWordLengths(int depth){
+    int[] counts = new int[depth];
+    FileResource resource = new FileResource();
+    countWordLengths(resource, counts);
+  }
+
+  public void countWordLengths(FileResource resource, int[] counts){
+    for (String word : resource.words()){
+      Character chI = word.charAt(0);
+      if (!Character.isLetterOrDigit(chI)){
+        word = word.substring(1);
+      }
+      if (word.length()>0){
+        Character chF = word.charAt(word.length()-1);
+        if (!Character.isLetterOrDigit(chF)){
+          word = word.substring(0, word.length()-1);
+        }
+      }
+      int wordLength = word.length();
+      /* Uncomment to notice the big words:
+      if (wordLength > 14){
+        System.out.println("word length: "+wordLength+", word: "+word);
+      }
+      /* */
+      if (wordLength > counts.length-1) {
+        counts[counts.length-1] += 1;
+      } else {
+        counts[wordLength] += 1;
+      }
+      // The next line of code is for words such as ";" that were  
+      //  editted to "" above and turned out to have a length of zero.  
+      //  These occurrences are editted out below as word counts of  
+      //  length of zero are equal to zero:
+      counts[0] = 0;
+    }
+    for (int i = 0; i < counts.length; i++){
+      System.out.println("# ltrs: "+i+",  #words: "+counts[i]+";");
+    }
+  }
+
+
+
+
+
+
+
+
+
   public void simulate(int rolls){
     Random rand = new Random();
     int [] counts = new int [13];
