@@ -2,24 +2,63 @@
 /**
  * Write a description of TestCaesarCipher here.
  * 
- * @author (your name) 
+ * @author (your name)
  * @version (a version number or a date)
  */
+
+import edu.duke.*;
+import java.util.*;
+
 public class TestCaesarCipher {
 
-  public void simpleTests(){
-
+  public void simpleTests1(){
+    int key0 = 20; int key1 = 11;
+    CaesarCipher cc0 = new CaesarCipher(key0);
+    FileResource fr = new FileResource();
+    String message = fr.asString();
+    String encrypted0 = cc0.encrypt(message);
+    CaesarCipher cc1 = new CaesarCipher(key1);
+    String encrypted1 = cc1.encrypt(message);
+    String decrypted0 = cc1.breakCaesarCipher(encrypted0);
+    System.out.println(message);
+    System.out.println("key0: "+key0);
+    System.out.println(encrypted0);
+    System.out.println("key1: "+cc1.getKey());
+    System.out.println(encrypted1);
+    System.out.println(decrypted0);
+    //System.out.println(breakCaesarCipher(encrypted));
   }
 
-  public String decryptAssumingMaxIsE(String encrypted){
-    CaesarCipher cc = new CaesarCipher();
+  public String breakCaesarCipher(String encrypted){
     int[] freqs = countLetters(encrypted);
     int maxDex = maxIndex(freqs);
     int dkey = maxDex - 4;
     if (maxDex < 4) {
       dkey = 26 - (4-maxDex);
     }
-    return cc.encrypt(encrypted,26-dkey);
+    CaesarCipher cc = new CaesarCipher(dkey);
+    return cc.decryptFromKey(encrypted);
+  }
+
+  public void simpleTests0(){
+    int key = 18;
+    CaesarCipher cc = new CaesarCipher(key);
+    FileResource fr = new FileResource();
+    String message = fr.asString();
+    String encrypted = cc.encrypt(message);
+    String decrypted = cc.decryptFromKey(encrypted);
+    System.out.println(message);
+    System.out.println(key);
+    System.out.println(encrypted);
+    System.out.println(decrypted);
+  }
+
+  public String halfOfString(String input, int start){
+    StringBuilder sb = new StringBuilder();
+    for(int i=start; i<input.length(); i+=2){
+      sb.append(input.charAt(i));
+    }
+    return sb.toString();
   }
 
   public int maxIndex(int[] vals){

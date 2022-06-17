@@ -22,20 +22,29 @@ public class CaesarCipher {
                     + letters.substring(0,key);
   }
 
+  public int getKey(){
+    return mainKey;
+  }
+
   public String decryptFromKey(String encrypted){
     CaesarCipher cc = new CaesarCipher(26-mainKey);
     return cc.encrypt(encrypted);
   }
         
+  public String breakCaesarCipher(String encrypted){
+    return decryptAssumingMaxIsE(encrypted);
+  }
+        
   public String decryptAssumingMaxIsE(String encrypted){
-    CaesarCipher cc = new CaesarCipher();
     int[] freqs = countLetters(encrypted);
     int maxDex = maxIndex(freqs);
     int dkey = maxDex - 4;
     if (maxDex < 4) {
       dkey = 26 - (4-maxDex);
     }
-    return cc.encrypt(encrypted,26-dkey);
+    System.out.println("from method in class -***>"+dkey);
+    CaesarCipher cc = new CaesarCipher(dkey);
+    return cc.decryptFromKey(encrypted);
   }
         
   public int maxIndex(int[] vals){
@@ -127,5 +136,10 @@ public class CaesarCipher {
       }
     }
     return out.toString();
+  }
+
+  public String encrypt(String input, int key) {
+    CaesarCipher cc = new CaesarCipher(key);
+    return cc.encrypt(input);
   }
 }

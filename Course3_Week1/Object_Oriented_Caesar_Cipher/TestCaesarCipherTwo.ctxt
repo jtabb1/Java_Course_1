@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=TestCaesarCipherTwo
+comment1.params=
+comment1.target=void\ simpleTests1()
+comment2.params=input\ start
+comment2.target=java.lang.String\ halfOfString(java.lang.String,\ int)
+comment2.text=\n\ \ public\ void\ simpleTests0(){\n\ \ \ \ int\ key\ \=\ 18;\n\ \ \ \ CaesarCipherTwo\ cc\ \=\ new\ CaesarCipherTwo(key);\n\ \ \ \ FileResource\ fr\ \=\ new\ FileResource();\n\ \ \ \ String\ message\ \=\ fr.asString();\n\ \ \ \ String\ encrypted\ \=\ cc.encrypt(message);\n\ \ \ \ String\ decrypted\ \=\ cc.decryptFromKey(encrypted);\n\ \ \ \ System.out.println(message);\n\ \ \ \ System.out.println(key);\n\ \ \ \ System.out.println(encrypted);\n\ \ \ \ System.out.println(decrypted);\n\ \ }\n
+comment3.params=vals
+comment3.target=int\ maxIndex(int[])
+comment4.params=message
+comment4.target=int[]\ countLetters(java.lang.String)
+numComments=5
