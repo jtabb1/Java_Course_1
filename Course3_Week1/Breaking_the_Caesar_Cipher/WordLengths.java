@@ -18,21 +18,21 @@ public class WordLengths {
 
     message = "Hello there, meritocracies of America!"; key = 8;
     encrypted = cc.encrypt(message, key);
-    decrypted = decrypt(encrypted);
+    decrypted = decryptWL(encrypted);
     System.out.println("message: "+message);
     System.out.println("encrypted: "+encrypted);
     System.out.println("decrypted: "+decrypted);
     System.out.println();
     message = "Hello there, meritocracies of America!"; key = 21;
     encrypted = cc.encrypt(message, key);
-    decrypted = decrypt(encrypted);
+    decrypted = decryptWL(encrypted);
     System.out.println("message: "+message);
     System.out.println("encrypted: "+encrypted);
     System.out.println("decrypted: "+decrypted);
     System.out.println();
     message = "BananaRama_eeeeeee"; key = 22;
     encrypted = cc.encrypt(message, key);
-    decrypted = decrypt(encrypted);
+    decrypted = decryptWL(encrypted);
     System.out.println("message: "+message);
     System.out.println("encrypted: "+encrypted);
     System.out.println("decrypted: "+decrypted);
@@ -44,16 +44,16 @@ public class WordLengths {
     encrypted = "Lujyfwapvu huk zljbypaf hyl mbukhtluahs whyaz vm avkhf'z Pualyula.";
     encrypted = "lujyfwapvu huk zljbypaf hyl mbukhtluahs whyaz vm avkhf'z pualyula.".toUpperCase();
     System.out.println("encrypted: "+encrypted);
-    System.out.println("decrypted: "+decrypt(encrypted));
+    System.out.println("decrypted: "+decryptWL(encrypted));
     System.out.println();
     encrypted = "Gwpv c vbuq pvokki yfve iqqu qc bgbgbgbgbgbgbgbgbu";
     encrypted = "gwpv c vbuq pvokki yfve iqqu qc bgbgbgbgbgbgbgbgbu".toUpperCase();
     System.out.println("encrypted: "+encrypted);
-    System.out.println("decrypted: "+decrypt(encrypted));
+    System.out.println("decrypted: "+decryptWL(encrypted));
     System.out.println();
   }
   
-  public String decrypt(String encrypted){
+  public String decryptWL(String encrypted){
     CaesarCipher cc = new CaesarCipher();
     int[] freqs = countLetters(encrypted);
     int maxDex = maxIndex(freqs);
