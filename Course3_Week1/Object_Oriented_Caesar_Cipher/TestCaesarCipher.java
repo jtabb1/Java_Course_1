@@ -11,6 +11,21 @@ import java.util.*;
 
 public class TestCaesarCipher {
 
+  public void simpleTests__Quiz(){
+    int key = 15;
+    CaesarCipher cc = new CaesarCipher(key);
+    //FileResource fr = new FileResource();
+    //String message = fr.asString();
+    String message;
+    message = "Can you imagine life WITHOUT the internet AND computers in your pocket?";
+    String encrypted = cc.encrypt(message);
+    String decrypted = cc.decryptFromKey(encrypted);
+    System.out.println(message);
+    System.out.println(key);
+    System.out.println(encrypted);
+    System.out.println(decrypted);
+  }
+
   public void simpleTests1(){
     int key0 = 20; int key1 = 11;
     CaesarCipher cc0 = new CaesarCipher(key0);
