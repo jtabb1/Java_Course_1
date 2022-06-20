@@ -19,6 +19,7 @@ public class CodonCount {
 
   public void buildCodonMap(int start, String dna){
     codonMap.clear();
+    dna = dna.trim();
     for(int i=start;i<dna.length()-3;i+=3){
       String codon = dna.substring(i,i+3);
       if(codonMap.containsKey(codon)){
